@@ -19,14 +19,18 @@ class CreateCoursesTable extends Migration
             $table->string('course_code');
             $table->string('course_name');
             $table->text('description')->nullable(); 
-            $table->string('trimester_offered');
             $table->integer('lecture_hours');
             $table->integer('tutorial_hours');
             $table->integer('practical_hours');
-            $table->integer('num_students');
-            $table->boolean('is_active'); 
-            $table->timestamps();
+            $table->boolean('is_elective')->default(false);
+            $table->integer('required_choices')->nullable();
+            $table->integer('elective_pool_size')->nullable();
+            $table->string('course_category')->default('normal'); // 'normal' or 'mpu'
+            $table->boolean('is_active')->default(true);
+
+            $table->foreign('department_id')->references('id')->on('departments');
         });
+           
     }
 
     /**

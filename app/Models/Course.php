@@ -13,16 +13,22 @@ class Course extends Model
         'course_code',
         'course_name',
         'description',
-        'trimester_offered',
         'lecture_hours',
         'tutorial_hours',
         'practical_hours',
-        'num_students',
+        'is_elective', 
+        'required_choices', 
+        'elective_pool_size',
+        'course_category', 
         'is_active',
     ];
     public $timestamps = false;
 
-    public function department(){
-        return $this->belongsTo(Department::class);
+    public function department(){ 
+        return $this->belongsTo(Department::class); 
+    }
+
+    public function offerings(){ 
+        return $this->hasMany(CourseOffering::class); 
     }
 }
