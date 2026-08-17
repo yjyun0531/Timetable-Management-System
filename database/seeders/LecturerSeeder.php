@@ -20,6 +20,7 @@ class LecturerSeeder extends Seeder
             ['name' => 'Dr. Gunavathi a/p Duraisamy', 'department_id' => 8],
             ['name' => 'Dr. Kelwin Tan Seen Tiong', 'department_id' => 8],
             ['name' => 'Dr. Norazah binti Yusof', 'department_id' => 8],
+            ['name' => 'Dr. Nor Azlili binti Hassan', 'department_id' => 8],
         ];
 
         DB::table('lecturers')->insert($lecturers);

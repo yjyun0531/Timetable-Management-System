@@ -43,11 +43,6 @@
     </div>
 
     <div class="form-group">
-        <label for="trimester_offered">Trimester Offered:</label>
-        <input type="text" id="trimester_offered" name="trimester_offered" placeholder="e.g. Year 1 Trimester 1">
-    </div>
-
-    <div class="form-group">
         <label for="lecture_hours">Lecture Hours Per Week:</label>
         <input type="number" id="lecture_hours" name="lecture_hours" min="0" step="0.5" value="0">
     </div>
@@ -63,8 +58,25 @@
     </div>
 
     <div class="form-group">
-        <label for="num_students">Number of Students:</label>
-        <input type="number" id="num_students" name="num_students" min="0" placeholder="e.g., 50">
+        <label for="course_category">Category:</label>
+        <select id="course_category" name="course_category" required>
+            <option value="normal">Normal</option>
+            <option value="MPU">MPU</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label><input type="checkbox" id="is_elective" name="is_elective" value="1"> Elective</label>
+    </div>
+
+    <div class="form-group">
+        <label for="required_choices">Required Choices (X):</label>
+        <input type="number" id="required_choices" name="required_choices" min="1" placeholder="e.g. 2">
+    </div>
+
+    <div class="form-group">
+        <label for="elective_pool_size">Elective Pool Size (Y):</label>
+        <input type="number" id="elective_pool_size" name="elective_pool_size" min="1" placeholder="e.g. 20">
     </div>
 
     <div class="form-group">
