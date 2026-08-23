@@ -28,4 +28,31 @@ class LecturerController extends Controller
         Lecturer::create($validatedData);
         return redirect('/lecturers')->with('success', 'Lecturer added successfully!');
     }
+
+    public function editForm($id){
+        $lecturer = Lecturer::findOrFail($id);
+        $departments = Department::all();
+        return view('lecturers.edit', compact('lecturer', 'departments'));
+    }
+
+    public function update(Request $request, $id){
+        $lecturer = Lecturer::findOrFail($id);
+        $validatedData = $request->validate([
+            'name'          => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+        ]);
+        $lecturer->update($validatedData);
+        return redirect('/lecturers')->with('success', 'Lecturer updated successfully!');
+    }
+
+    public function deleteForm($id){
+        $lecturer = Lecturer::findOrFail($id);
+        return view('lecturers.delete', compact('lecturer'));
+    }
+
+    public function destroy($id){
+        $lecturer = Lecturer::findOrFail($id);
+        $lecturer->delete();
+        return redirect('/lecturers')->with('success', 'Lecturer deleted successfully!');
+    }
 }

@@ -33,8 +33,8 @@
                     <td>{{ $lecturer->name }}</td>
                     <td>{{ optional($lecturer->department)->name }}</td>
                     <td>
-                       <a href="lecturers/edit">Edit</a>
-                       <a href="lecturers/delete">Delete</a>
+                       <a href="/lecturers/{{ $lecturer->id }}/edit">Edit</a>
+                       <a href="/lecturers/{{ $lecturer->id }}/delete">Delete</a>
                     </td>
                 </tr>
             @endforeach

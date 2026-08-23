@@ -30,4 +30,30 @@ class DepartmentController extends Controller
 
         return redirect('/departments')->with('success', 'Department created successfully.');
     }
+
+    public function editForm($id){
+        $department = Department::findOrFail($id);
+        return view('departments.edit', compact('department'));
+    }
+
+    public function update(Request $request, $id){
+        $department = Department::findOrFail($id);
+        $request->validate([
+            'code' => 'required|max:10|unique:departments,code,' . $id,
+            'name' => 'required|max:255',
+        ]);
+        $department->update($request->all());
+        return redirect('/departments')->with('success', 'Department updated successfully.');
+    }
+
+    public function deleteForm($id){
+        $department = Department::findOrFail($id);
+        return view('departments.delete', compact('department'));
+    }
+
+    public function destroy($id){
+        $department = Department::findOrFail($id);
+        $department->delete();
+        return redirect('/departments')->with('success', 'Department deleted successfully.');
+    }
 }

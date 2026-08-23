@@ -49,8 +49,8 @@
                     <td>{{ $course->is_elective ? "Yes ({$course->required_choices}/{$course->elective_pool_size})" : 'No' }}</td>
                     <td>{{ $course->is_active ? 'Active' : 'Inactive' }}</td>
                     <td>
-                       <a href="courses/edit">Edit</a>
-                       <a href="courses/delete">Delete</a>
+                        <a href="/courses/{{ $course->id }}/edit">Edit</a> 
+                        <a href="/courses/{{ $course->id }}/delete">Delete</a>
                     </td>
                 </tr>
             @endforeach

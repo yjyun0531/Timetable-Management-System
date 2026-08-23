@@ -33,8 +33,8 @@
                     <td>{{ $venue->capacity }}</td>
                     <td>{{ $venue->type }}</td>
                     <td>
-                       <a href="venues/edit">Edit</a>
-                       <a href="venues/delete">Delete</a>
+                        <a href="/venues/{{ $venue->id }}/edit">Edit</a>
+                        <a href="/venues/{{ $venue->id }}/delete">Delete</a>
                     </td>
                 </tr>
             @endforeach

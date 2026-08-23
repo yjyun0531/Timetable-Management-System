@@ -31,8 +31,8 @@
                     <td>{{ $department->code }}</td>
                     <td>{{ $department->name }}</td>
                     <td>
-                       <a href="departments/edit">Edit</a>
-                       <a href="departments/delete">Delete</a>
+                        <a href="/departments/{{ $department->id }}/edit">Edit</a>
+                        <a href="/departments/{{ $department->id }}/delete">Delete</a>
                     </td>
                 </tr>
             @endforeach

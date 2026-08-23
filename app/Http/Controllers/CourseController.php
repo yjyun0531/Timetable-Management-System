@@ -41,4 +41,41 @@ class CourseController extends Controller
         Course::create($validatedData);
         return redirect('/courses')->with('success', 'Course added successfully!');
     }
+
+    public function editForm($id){
+    $course = Course::findOrFail($id);
+    $departments = Department::all();
+    return view('courses.edit', compact('course', 'departments'));
+}
+
+public function update(Request $request, $id){
+    $course = Course::findOrFail($id);
+    $validatedData = $request->validate([
+        'department_id'       => 'required|exists:departments,id',
+        'course_code'         => 'required|string',
+        'course_name'         => 'required|string',
+        'description'         => 'nullable|string',
+        'lecture_hours'       => 'required|numeric|min:0',
+        'tutorial_hours'      => 'required|numeric|min:0',
+        'practical_hours'     => 'required|numeric|min:0',
+        'is_elective'         => 'nullable|boolean',
+        'required_choices'    => 'nullable|integer|min:1',
+        'elective_pool_size'  => 'nullable|integer|min:1',
+        'course_category'     => 'required|in:normal,MPU',
+    ]);
+    $validatedData['is_elective'] = $request->has('is_elective');
+    $course->update($validatedData);
+    return redirect('/courses')->with('success', 'Course updated successfully!');
+    }
+
+    public function deleteForm($id){
+        $course = Course::findOrFail($id);
+        return view('courses.delete', compact('course'));
+    }
+
+    public function destroy($id){
+        $course = Course::findOrFail($id);
+        $course->delete();
+        return redirect('/courses')->with('success', 'Course deleted successfully!');
+    }
 }

@@ -27,6 +27,7 @@
                 <th>Trimester</th>
                 <th>Students</th>
                 <th>Shared?</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +40,10 @@
                     <td>{{ $offering->trimester }}</td>
                     <td>{{ $offering->num_students }}</td>
                     <td>{{ $offering->is_shared_programme ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a href="/course-offerings/{{ $offering->id }}/edit">Edit</a>
+                        <a href="/course-offerings/{{ $offering->id }}/delete">Delete</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
