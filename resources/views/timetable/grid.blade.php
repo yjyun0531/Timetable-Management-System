@@ -12,10 +12,10 @@
         }
         table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 10px; }
         th, td { border: 1px solid #999; padding: 3px 4px; text-align: center; vertical-align: middle; line-height: 1.3; min-width: 28px; }
-        th { background-color: #dbe5f1; font-size: 10px; white-space: nowrap; }
+        th { background-color: #2c72c7; font-size: 10px; white-space: nowrap; }
         td { max-width: 90px; }
         .venue-cell { background-color: #ffff99; font-weight: bold; white-space: nowrap; position: sticky; left: 0; z-index: 1; }
-        .entry-L { background-color: #ffffff; }
+        .entry-L { background-color: #809dde; }
         .entry-T { background-color: #eaf4ea; }
         .entry-P { background-color: #ff99ff; }
         .day-tabs a {
@@ -29,6 +29,10 @@
         .add-entry-section h3 { color: #1F4E79; font-size: 16px; }
         .form-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
         .form-row .form-group { flex: 1; min-width: 150px; font-size: 13px; }
+        .add-entry-section form {
+            max-width: none;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -87,7 +91,7 @@
     </div>
 
     <div class="add-entry-section">
-        <h3>+ Add New Timetable Entry</h3>
+        <h3>Add New Timetable Entry</h3>
         <form action="/timetable" method="POST">
         @csrf
 

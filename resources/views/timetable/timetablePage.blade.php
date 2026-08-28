@@ -3,13 +3,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><title>Timetable</title>
-    <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { text-decoration: none; margin-right: 10px; }
-        .locked { color: #b00020; font-weight: 600; }
-    </style>
 </head>
 <body>
     <h2>Timetable</h2>

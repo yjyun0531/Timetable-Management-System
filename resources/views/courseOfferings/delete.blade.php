@@ -3,13 +3,16 @@
 <html lang="en">
 <head><meta charset="UTF-8"><title>Delete Course Offering</title></head>
 <body>
-    <p>Are you sure you want to delete the offering of
+    <h2>Delete Course Offering</h2>
+    <div class="confirm-box">
+       <p>Are you sure you want to delete the offering of
        <strong>{{ optional($offering->course)->course_code }} ({{ $offering->batch_code }}, {{ $offering->trimester }})</strong>?</p>
-    <form action="/course-offerings/{{ $offering->id }}" method="POST">
+        <form action="/course-offerings/{{ $offering->id }}" method="POST">
         @csrf
         @method('DELETE')
         <button type="submit">Yes, Delete</button>
-    </form>
+        </form>
+    </div>
     <a href="/course-offerings">Cancel</a>
 </body>
 </html>

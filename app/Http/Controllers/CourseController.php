@@ -10,7 +10,7 @@ class CourseController extends Controller
 {
     public function show(Request $request){
     $courses = Course::all();
-    $courses = Course::with('department')->paginate(5);
+    $courses = Course::with('department')->paginate(10);
     // Return the blade view and pass the data
     return view('courses.coursePage',compact('courses'));
     }
