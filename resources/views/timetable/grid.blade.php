@@ -11,7 +11,7 @@
             border: 1px solid #ccc;
         }
         table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 10px; }
-        th, td { border: 1px solid #999; padding: 3px 4px; text-align: center; vertical-align: middle; line-height: 1.3; }
+        th, td { border: 1px solid #999; padding: 3px 4px; text-align: center; vertical-align: middle; line-height: 1.3; min-width: 28px; }
         th { background-color: #dbe5f1; font-size: 10px; white-space: nowrap; }
         td { max-width: 90px; }
         .venue-cell { background-color: #ffff99; font-weight: bold; white-space: nowrap; position: sticky; left: 0; z-index: 1; }
@@ -45,11 +45,19 @@
 
     <div class="grid-scroll">
         <table>
-            <thead>
+          <thead>
                 <tr>
-                    <th>Venue</th>
-                    @foreach($slots as $slot)
-                        <th>{{ $slot[2] }}</th>
+                    <th rowspan="2">Venue</th>
+                    @php
+                        $hourGroups = collect($slots)->chunk(2);
+                    @endphp
+                    @foreach($hourGroups as $group)
+                        <th colspan="{{ $group->count() }}">{{ $group->first()[0] }}</th>
+                    @endforeach
+                </tr>
+                <tr>
+                    @foreach($hourGroups as $group)
+                        <th colspan="{{ $group->count() }}">{{ $group->last()[1] }}</th>
                     @endforeach
                 </tr>
             </thead>

@@ -114,18 +114,18 @@ class TimetableController extends Controller
         $day = $request->query('day', 'Monday');
         $venues = Venue::orderBy('name')->get();
 
-        $slots = [
-            ['08:00','09:00','8-9'],
-            ['09:00','10:00','9-10'],
-            ['10:00','11:00','10-11'],
-            ['11:00','12:00','11-12'],
-            ['12:00','13:00','12-1'],
-            ['13:00','14:00','1-2'],
-            ['14:00','15:00','2-3'],
-            ['15:00','16:00','3-4'],
-            ['16:00','17:00','4-5'],
-            ['17:00','18:00','5-6'],
-        ];
+        // Generate 30-minute slots from 08:00 to 18:00
+        $slots = [];
+        for ($h = 8; $h < 18; $h++) {
+            foreach ([0, 30] as $m) {
+                $start = sprintf('%02d:%02d', $h, $m);
+                $endH = $m === 30 ? $h + 1 : $h;
+                $endM = $m === 30 ? 0 : 30;
+                $end = sprintf('%02d:%02d', $endH, $endM);
+                $label = $m === 0 ? sprintf('%d', $h) : '';
+                $slots[] = [$start, $end, $label];
+            }
+        }
 
         $entries = Timetable::with(['offering.course', 'lecturer'])
             ->where('day_of_week', $day)
@@ -146,10 +146,16 @@ class TimetableController extends Controller
                 });
 
                 if ($entry) {
-                    $startH = (int) substr($entry->start_time, 0, 2);
-                    $endH = (int) substr($entry->end_time, 0, 2);
-                    $duration = max(1, $endH - $startH);
-                    $colspan = min($duration, count($slots) - $i);
+                    $entryEnd = substr($entry->end_time, 0, 5);
+                    $span = 0;
+                    for ($j = $i; $j < count($slots); $j++) {
+                        if ($slots[$j][0] < $entryEnd) {
+                            $span++;
+                        } else {
+                            break;
+                        }
+                    }
+                    $colspan = max(1, min($span, count($slots) - $i));
                     $cells[] = ['type' => 'entry', 'entry' => $entry, 'colspan' => $colspan];
                     $skipUntil = $i + $colspan - 1;
                 } else {
@@ -164,6 +170,5 @@ class TimetableController extends Controller
 
         return view('timetable.grid', compact('rows', 'slots', 'day', 'venues', 'offerings', 'lecturers'));
     }
-
     
 }
