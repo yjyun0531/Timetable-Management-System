@@ -28,14 +28,16 @@
 
     <div class="form-group">
         <label for="venue_type">Venue Type:</label>
-        <!-- Changed name="venue_type" to name="type" -->
         <select id="venue_type" name="type" required>
             <option value="">-- Select a Type --</option>
             <option value="L" {{ old('type') == 'L' ? 'selected' : '' }}>L</option>
             <option value="T" {{ old('type') == 'T' ? 'selected' : '' }}>T</option>
             <option value="B" {{ old('type') == 'B' ? 'selected' : '' }}>B</option>
+            <option value="P" {{ old('type') == 'P' ? 'selected' : '' }}>P</option>
         </select>
     </div>
 
     <button type="submit">Save Venue</button>
     </form> <a href="/venues" class="back-link">← Back to List</a>
+</body>
+</html>

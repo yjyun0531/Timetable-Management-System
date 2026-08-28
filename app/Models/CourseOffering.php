@@ -18,4 +18,5 @@ class CourseOffering extends Model
     public $timestamps = false;
 
     public function course(){ return $this->belongsTo(Course::class); }
+    public function lecturerCourses(){ return $this->hasMany(LecturerCourse::class, 'offering_id'); }
 }

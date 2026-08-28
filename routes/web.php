@@ -6,6 +6,8 @@ use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\CourseOfferingController;
 use App\Http\Controllers\LecturerCourseController;
+use App\Http\Controllers\TimetableController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { return view('main'); });
@@ -57,3 +59,12 @@ Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/edit', [LecturerCourse
 Route::put('/lecturer-courses/{lecturer_id}/{offering_id}', [LecturerCourseController::class, 'update']);
 Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/delete', [LecturerCourseController::class, 'deleteForm']);
 Route::delete('/lecturer-courses/{lecturer_id}/{offering_id}', [LecturerCourseController::class, 'destroy']);
+
+Route::get('/timetable/grid', [TimetableController::class, 'grid']);
+
+Route::get('/timetable', [TimetableController::class, 'show']);
+Route::post('/timetable', [TimetableController::class, 'store']);
+Route::get('/timetable/{id}/edit', [TimetableController::class, 'editForm']);
+Route::put('/timetable/{id}', [TimetableController::class, 'update']);
+Route::get('/timetable/{id}/delete', [TimetableController::class, 'deleteForm']);
+Route::delete('/timetable/{id}', [TimetableController::class, 'destroy']);
