@@ -24,7 +24,7 @@ class LecturerCourseController extends Controller
         return [
             'lecturer_id' => 'required|exists:lecturers,id',
             'offering_id' => 'required|exists:course_offerings,id',
-            'class_group' => 'nullable|string|max:20',
+            'class_group' => 'required|string|max:20',
         ];
     }
 

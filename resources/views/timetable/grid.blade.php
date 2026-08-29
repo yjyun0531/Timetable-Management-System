@@ -98,10 +98,12 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="offering">Course Offering:</label>
-                <select id="offering" name="offering_id" required onchange="showStudentCount()">
+                <select id="offering" name="offering_id" required onchange="showStudentCount(); filterLecturers();">
                     <option value="">-- Select --</option>
                     @foreach($offerings as $offering)
-                        <option value="{{ $offering->id }}" data-students="{{ $offering->num_students }}">
+                        <option value="{{ $offering->id }}"
+                                data-students="{{ $offering->num_students }}"
+                                data-assignments='{{ $offering->lecturerCourses->map(fn($lc) => ["lecturer_id" => $lc->lecturer_id, "class_group" => $lc->class_group])->toJson() }}'>
                             {{ optional($offering->course)->course_code }} — {{ $offering->batch_code }}
                         </option>
                     @endforeach
@@ -110,11 +112,8 @@
             </div>
             <div class="form-group">
                 <label for="lecturer">Lecturer:</label>
-                <select id="lecturer" name="lecturer_id" required>
-                    <option value="">-- Select --</option>
-                    @foreach($lecturers as $lecturer)
-                        <option value="{{ $lecturer->id }}">{{ $lecturer->name }}</option>
-                    @endforeach
+                <select id="lecturer" name="lecturer_id" required onchange="autoFillClassGroup()">
+                    <option value="">-- Select a course offering first --</option>
                 </select>
             </div>
             <div class="form-group">
@@ -185,6 +184,54 @@
     </div>
 
     <script>
+        const allLecturers = {!! $lecturers->map(fn($l) => ['id' => $l->id, 'name' => $l->name])->toJson() !!};
+
+        function filterLecturers() {
+            const offeringSelect = document.getElementById('offering');
+            const lecturerSelect = document.getElementById('lecturer');
+            const selected = offeringSelect.options[offeringSelect.selectedIndex];
+
+            lecturerSelect.innerHTML = '';
+
+            if (!selected.value) {
+                lecturerSelect.innerHTML = '<option value="">-- Select a course offering first --</option>';
+                return;
+            }
+
+            const assignments = JSON.parse(selected.getAttribute('data-assignments') || '[]');
+
+            if (assignments.length === 0) {
+                lecturerSelect.innerHTML = '<option value="">-- No lecturer assigned to this offering yet --</option>';
+                return;
+            }
+
+            lecturerSelect.innerHTML = '<option value="">-- Select --</option>';
+            assignments.forEach(a => {
+                const lecturer = allLecturers.find(l => l.id === a.lecturer_id);
+                if (lecturer) {
+                    const opt = document.createElement('option');
+                    opt.value = lecturer.id;
+                    opt.textContent = lecturer.name + (a.class_group ? ' (' + a.class_group + ')' : '');
+                    opt.setAttribute('data-class-group', a.class_group || '');
+                    lecturerSelect.appendChild(opt);
+                }
+            });
+
+            if (assignments.length === 1) {
+                lecturerSelect.value = assignments[0].lecturer_id;
+                autoFillClassGroup();
+            }
+        }
+
+        function autoFillClassGroup() {
+            const lecturerSelect = document.getElementById('lecturer');
+            const selected = lecturerSelect.options[lecturerSelect.selectedIndex];
+            const group = selected ? selected.getAttribute('data-class-group') : '';
+            if (group) {
+                document.getElementById('class_group').value = group;
+            }
+        }
+        
         function showStudentCount() {
             const select = document.getElementById('offering');
             const display = document.getElementById('studentCountDisplay');

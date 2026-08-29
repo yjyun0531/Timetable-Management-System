@@ -56,6 +56,14 @@ class TimetableController extends Controller
         $validatedData['is_locked'] = $request->has('is_locked');
         $validatedData['status'] = 'confirmed';
 
+        $isAssigned = \App\Models\LecturerCourse::where('lecturer_id', $validatedData['lecturer_id'])
+            ->where('offering_id', $validatedData['offering_id'])
+            ->exists();
+
+        if (!$isAssigned) {
+            return redirect()->back()->withInput()->with('error', 'This lecturer is not assigned to teach the selected course offering.');
+        }
+
         $conflict = $this->hasConflict(
             $validatedData['lecturer_id'], $validatedData['venue_id'],
             $validatedData['day_of_week'], $validatedData['start_time'], $validatedData['end_time']
@@ -84,7 +92,13 @@ class TimetableController extends Controller
         $entry = Timetable::findOrFail($id);
         $validatedData = $request->validate($this->rules());
         $validatedData['is_locked'] = $request->has('is_locked');
+        $isAssigned = \App\Models\LecturerCourse::where('lecturer_id', $validatedData['lecturer_id'])
+        ->where('offering_id', $validatedData['offering_id'])
+        ->exists();
 
+        if (!$isAssigned) {
+            return redirect()->back()->withInput()->with('error', 'This lecturer is not assigned to teach the selected course offering.');
+        }
         $conflict = $this->hasConflict(
             $validatedData['lecturer_id'], $validatedData['venue_id'],
             $validatedData['day_of_week'], $validatedData['start_time'], $validatedData['end_time'],

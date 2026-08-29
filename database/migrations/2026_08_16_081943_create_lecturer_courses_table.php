@@ -16,8 +16,8 @@ class CreateLecturerCoursesTable extends Migration
         Schema::create('lecturer_courses', function (Blueprint $table) {
             $table->unsignedBigInteger('lecturer_id');
             $table->unsignedBigInteger('offering_id');
-            $table->string('class_group')->nullable();
-            $table->primary(['lecturer_id', 'offering_id']);
+            $table->string('class_group');
+            $table->primary(['lecturer_id', 'offering_id', 'class_group']);
 
             $table->foreign('lecturer_id')->references('id')->on('lecturers');
             $table->foreign('offering_id')->references('id')->on('course_offerings');
