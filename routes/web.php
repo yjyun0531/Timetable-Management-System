@@ -55,10 +55,10 @@ Route::delete('/course-offerings/{id}', [CourseOfferingController::class, 'destr
 Route::get('/lecturer-courses', [LecturerCourseController::class, 'show']);
 Route::get('/lecturer-courses/create', [LecturerCourseController::class, 'create']);
 Route::post('/lecturer-courses', [LecturerCourseController::class, 'store']);
-Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/edit', [LecturerCourseController::class, 'editForm']);
-Route::put('/lecturer-courses/{lecturer_id}/{offering_id}', [LecturerCourseController::class, 'update']);
-Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/delete', [LecturerCourseController::class, 'deleteForm']);
-Route::delete('/lecturer-courses/{lecturer_id}/{offering_id}', [LecturerCourseController::class, 'destroy']);
+Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/{class_group}/edit', [LecturerCourseController::class, 'editForm']);
+Route::put('/lecturer-courses/{lecturer_id}/{offering_id}/{class_group}', [LecturerCourseController::class, 'update']);
+Route::get('/lecturer-courses/{lecturer_id}/{offering_id}/{class_group}/delete', [LecturerCourseController::class, 'deleteForm']);
+Route::delete('/lecturer-courses/{lecturer_id}/{offering_id}/{class_group}', [LecturerCourseController::class, 'destroy']);
 
 Route::get('/timetable/grid', [TimetableController::class, 'grid']);
 

@@ -8,27 +8,29 @@
         @method('PUT')
         <div class="form-group">
             <label for="offering">Course Offering:</label>
-            <select id="offering" name="offering_id" required>
+            <select id="offering" name="offering_id" required disabled>
                 @foreach($offerings as $offering)
                     <option value="{{ $offering->id }}" {{ $entry->offering_id == $offering->id ? 'selected' : '' }}>
                         {{ optional($offering->course)->course_code }} — {{ $offering->batch_code }} ({{ $offering->trimester }})
                     </option>
                 @endforeach
             </select>
+            <input type="hidden" name="offering_id" value="{{ $entry->offering_id }}">
         </div>
         <div class="form-group">
             <label for="lecturer">Lecturer:</label>
-            <select id="lecturer" name="lecturer_id" required>
+            <select id="lecturer" name="lecturer_id" required disabled>
                 @foreach($lecturers as $lecturer)
                     <option value="{{ $lecturer->id }}" {{ $entry->lecturer_id == $lecturer->id ? 'selected' : '' }}>
                         {{ $lecturer->name }}
                     </option>
                 @endforeach
             </select>
+            <input type="hidden" name="lecturer_id" value="{{ $entry->lecturer_id }}">
         </div>
         <div class="form-group">
             <label for="venue">Venue:</label>
-            <select id="venue" name="venue_id" required>
+            <select id="venue" name="venue_id" required >
                 @foreach($venues as $venue)
                     <option value="{{ $venue->id }}" {{ $entry->venue_id == $venue->id ? 'selected' : '' }}>
                         {{ $venue->name }} (Cap: {{ $venue->capacity }}, {{ $venue->type }})
@@ -38,7 +40,8 @@
         </div>
         <div class="form-group">
             <label for="trimester">Trimester:</label>
-            <input type="text" id="trimester" name="trimester" value="{{ $entry->trimester }}" required>
+            <input type="text" id="trimester" name="trimester" value="{{ $entry->trimester }}" required readonly>
+            <input type="hidden" name="trimester" value="{{ $entry->trimester }}">
         </div>
         <div class="form-group">
             <label for="day_of_week">Day:</label>
@@ -57,16 +60,18 @@
             <input type="time" id="end_time" name="end_time" value="{{ $entry->end_time }}" required>
         </div>
         <div class="form-group">
-            <label for="class_type">Class Type:</label>
-            <select id="class_type" name="class_type" required>
+            <label for="class_type" >Class Type:</label>
+            <select id="class_type" name="class_type" required disabled>
                 <option value="L" {{ $entry->class_type == 'L' ? 'selected' : '' }}>Lecture (L)</option>
                 <option value="T" {{ $entry->class_type == 'T' ? 'selected' : '' }}>Tutorial (T)</option>
                 <option value="P" {{ $entry->class_type == 'P' ? 'selected' : '' }}>Practical (P)</option>
             </select>
+            <input type="hidden" name="class_type" value="{{ $entry->class_type }}">
         </div>
         <div class="form-group">
             <label for="class_group">Class Group:</label>
-            <input type="text" id="class_group" name="class_group" value="{{ $entry->class_group }}">
+            <input type="text" id="class_group" name="class_group" value="{{ $entry->class_group }}" readonly disabled>
+            <input type="hidden" name="class_group" value="{{ $entry->class_group }}">
         </div>
         <div class="form-group">
             <label for="week_type">Week Type:</label>

@@ -16,20 +16,27 @@ class TimetableController extends Controller
     }
 
 
-    private function rules(){
-        return [
-            'offering_id'  => 'required|exists:course_offerings,id',
-            'lecturer_id'  => 'required|exists:lecturers,id',
+    private function rules($forUpdate = false){
+        $rules = [
             'venue_id'     => 'required|exists:venues,id',
-            'trimester'    => 'required|string',
             'day_of_week'  => 'required|string',
             'start_time'   => 'required',
             'end_time'     => 'required|after:start_time',
-            'class_type'   => 'required|in:L,T,P',
-            'class_group'  => 'nullable|string|max:20',
             'week_type'    => 'required|in:every,odd,even',
             'is_locked'    => 'nullable|boolean',
         ];
+
+        if (!$forUpdate) {
+            $rules = array_merge($rules, [
+                'offering_id'  => 'required|exists:course_offerings,id',
+                'lecturer_id'  => 'required|exists:lecturers,id',
+                'trimester'    => 'required|string',
+                'class_type'   => 'required|in:L,T,P',
+                'class_group'  => 'nullable|string|max:20',
+            ]);
+        }
+
+        return $rules;
     }
 
     private function hasConflict($lecturer_id, $venue_id, $day, $start, $end, $excludeId = null){
@@ -90,11 +97,17 @@ class TimetableController extends Controller
 
     public function update(Request $request, $id){
         $entry = Timetable::findOrFail($id);
-        $validatedData = $request->validate($this->rules());
+        $validatedData = $request->validate($this->rules(true));
+        $validatedData['offering_id'] = $entry->offering_id;
+        $validatedData['lecturer_id'] = $entry->lecturer_id;
+        $validatedData['trimester'] = $entry->trimester;
+        $validatedData['class_type'] = $entry->class_type;
+        $validatedData['class_group'] = $entry->class_group;
         $validatedData['is_locked'] = $request->has('is_locked');
+
         $isAssigned = \App\Models\LecturerCourse::where('lecturer_id', $validatedData['lecturer_id'])
-        ->where('offering_id', $validatedData['offering_id'])
-        ->exists();
+            ->where('offering_id', $validatedData['offering_id'])
+            ->exists();
 
         if (!$isAssigned) {
             return redirect()->back()->withInput()->with('error', 'This lecturer is not assigned to teach the selected course offering.');

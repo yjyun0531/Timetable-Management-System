@@ -20,10 +20,10 @@ class LecturerCourseController extends Controller
         return view('lecturerCourses.create', compact('lecturers', 'offerings'));
     }
 
-    private function rules(){
+    private function rules($forUpdate = false){
         return [
-            'lecturer_id' => 'required|exists:lecturers,id',
-            'offering_id' => 'required|exists:course_offerings,id',
+            'lecturer_id' => $forUpdate ? 'sometimes|exists:lecturers,id' : 'required|exists:lecturers,id',
+            'offering_id' => $forUpdate ? 'sometimes|exists:course_offerings,id' : 'required|exists:course_offerings,id',
             'class_group' => 'required|string|max:20',
         ];
     }
@@ -35,32 +35,40 @@ class LecturerCourseController extends Controller
         return redirect('/lecturer-courses')->with('success', 'Lecturer assigned successfully!');
     }
 
-    public function editForm($lecturer_id, $offering_id){
+    public function editForm($lecturer_id, $offering_id, $class_group){
         $assignment = LecturerCourse::where('lecturer_id', $lecturer_id)
-            ->where('offering_id', $offering_id)->firstOrFail();
+            ->where('offering_id', $offering_id)
+            ->where('class_group', $class_group)
+            ->firstOrFail();
         $lecturers = Lecturer::all();
         $offerings = CourseOffering::with('course')->get();
         return view('lecturerCourses.edit', compact('assignment', 'lecturers', 'offerings'));
     }
 
-    public function update(Request $request, $lecturer_id, $offering_id){
+    public function update(Request $request, $lecturer_id, $offering_id, $class_group){
         $assignment = LecturerCourse::where('lecturer_id', $lecturer_id)
-            ->where('offering_id', $offering_id)->firstOrFail();
+            ->where('offering_id', $offering_id)
+            ->where('class_group', $class_group)
+            ->firstOrFail();
         $validatedData = $request->validate($this->rules());
         $assignment->update($validatedData);
         return redirect('/lecturer-courses')->with('success', 'Assignment updated successfully!');
     }
 
-    public function deleteForm($lecturer_id, $offering_id){
+    public function deleteForm($lecturer_id, $offering_id, $class_group){
         $assignment = LecturerCourse::with(['lecturer', 'offering.course'])
             ->where('lecturer_id', $lecturer_id)
-            ->where('offering_id', $offering_id)->firstOrFail();
+            ->where('offering_id', $offering_id)
+            ->where('class_group', $class_group)
+            ->firstOrFail();
         return view('lecturerCourses.delete', compact('assignment'));
     }
 
-    public function destroy($lecturer_id, $offering_id){
+    public function destroy($lecturer_id, $offering_id, $class_group){
         LecturerCourse::where('lecturer_id', $lecturer_id)
-            ->where('offering_id', $offering_id)->delete();
+            ->where('offering_id', $offering_id)
+            ->where('class_group', $class_group)
+            ->delete();
         return redirect('/lecturer-courses')->with('success', 'Assignment removed successfully!');
     }
 }

@@ -14,10 +14,11 @@ class CreateLecturerCoursesTable extends Migration
     public function up()
     {
         Schema::create('lecturer_courses', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('lecturer_id');
             $table->unsignedBigInteger('offering_id');
             $table->string('class_group');
-            $table->primary(['lecturer_id', 'offering_id', 'class_group']);
+            $table->unique(['lecturer_id', 'offering_id', 'class_group']);
 
             $table->foreign('lecturer_id')->references('id')->on('lecturers');
             $table->foreign('offering_id')->references('id')->on('course_offerings');

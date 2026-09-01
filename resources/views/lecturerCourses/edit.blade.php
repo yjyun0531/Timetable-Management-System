@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="UTF-8"><title>Edit Assignment</title></head>
 <body>
-    <form action="/lecturer-courses/{{ $assignment->lecturer_id }}/{{ $assignment->offering_id }}" method="POST">
+    <form action="/lecturer-courses/{{ $assignment->lecturer_id }}/{{ $assignment->offering_id }}/{{ $assignment->class_group }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">

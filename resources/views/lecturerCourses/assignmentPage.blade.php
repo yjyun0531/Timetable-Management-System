@@ -20,8 +20,8 @@
                     <td>{{ optional($a->offering)->trimester }}</td>
                     <td>{{ $a->class_group }}</td>
                     <td>
-                        <a href="/lecturer-courses/{{ $a->lecturer_id }}/{{ $a->offering_id }}/edit">Edit</a>
-                        <a href="/lecturer-courses/{{ $a->lecturer_id }}/{{ $a->offering_id }}/delete">Delete</a>
+                        <a href="/lecturer-courses/{{ $a->lecturer_id }}/{{ $a->offering_id }}/{{ $a->class_group }}/edit">Edit</a>
+                        <a href="/lecturer-courses/{{ $a->lecturer_id }}/{{ $a->offering_id }}/{{ $a->class_group }}/delete">Delete</a>
                     </td>
                 </tr>
             @endforeach
