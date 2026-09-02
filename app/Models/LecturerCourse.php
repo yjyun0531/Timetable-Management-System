@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class LecturerCourse extends Model
 {
     use HasFactory;
-    protected $table = 'lecturer_courses';
-    public $incrementing = false;
+    protected $table = 'lecturer_courses';    
     public $timestamps = false;
     protected $fillable = ['lecturer_id', 'offering_id', 'class_group'];
 
